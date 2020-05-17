@@ -23,8 +23,8 @@ class myPs:
         self.angle = (math.atan2(y - cen.y, x - cen.x) * 180 / math.pi)
         if self.angle < 0:
             self.angle += 360
-    def reAngle():
-        self.angle = (math.atan2(y - cen.y, x - cen.x) * 180 / math.pi)
+    def reAngle(self, cen):
+        self.angle = (math.atan2(self.y - cen.y, self.x - cen.x) * 180 / math.pi)
         if self.angle < 0:
             self.angle += 360
 
@@ -75,7 +75,7 @@ def update(dt):
     if len(points) < 10:
         points.append(randPoint())
     for i in range(len(points)):
-        points[i].reAngle
+        points[i].reAngle(center)
     points.sort(key=myFunc)
     window.clear()
     temp = len(points)
