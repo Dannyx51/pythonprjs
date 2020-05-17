@@ -23,6 +23,10 @@ class myPs:
         self.angle = (math.atan2(y - cen.y, x - cen.x) * 180 / math.pi)
         if self.angle < 0:
             self.angle += 360
+    def reAngle():
+        self.angle = (math.atan2(y - cen.y, x - cen.x) * 180 / math.pi)
+        if self.angle < 0:
+            self.angle += 360
 
 class cen:
     def __init__(self, x, y):
@@ -68,8 +72,10 @@ def on_mouse_release(x, y, button, modifiers):
             # points.sort(key=myFunc)
 
 def update(dt):
-    if len(points) < 1000:
+    if len(points) < 10:
         points.append(randPoint())
+    for i in range(len(points)):
+        points[i].reAngle
     points.sort(key=myFunc)
     window.clear()
     temp = len(points)
