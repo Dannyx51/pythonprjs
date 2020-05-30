@@ -11,9 +11,9 @@ down = 1
 r = 0
 g = 0
 b = 0
-rc = 5
-gc = 5
-bc = 5
+rc = 15
+gc = 15
+bc = 15
 
 def update(dt):
     global i, j, ud, down, r, g, b, rc, gc, bc, color
