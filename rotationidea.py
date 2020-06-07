@@ -14,24 +14,34 @@ class point:
         self.x = self.scale * math.sin(self.count) + 640
         self.y = self.scale * math.cos(self.count) + 360
         self.reverse = False
+        self.sreverse = False
         
     def rotate(self):
-        self.scale += 1
-
-        if (self.count % 10 == 0):
+        if (self.scale == 0 or self.scale == 200):
+            if (self.sreverse == True):
+                self.sreverse = False
+            else:
+                self.sreverse = True
+ 
+        if (self.count % 50 == 0):
             if (self.reverse == True):
                 self.reverse = False
             else:
                 self.reverse = True
 
         if (self.reverse == True):
-            self.count -= 1
+            self.count -= 0.25
         else:
-            self.count += 1
+            self.count += 0.25
+
+        if (self.sreverse == True):
+            self.scale -= 0.5
+        else:
+            self.scale += 0.5
 
         self.x = self.scale * math.sin(self.count) + 640
         self.y = self.scale * math.cos(self.count) + 360
-        print(self.scale)
+        #print(self.scale)
 
     def color(self):
         return (self.r,self.g,self.b)
@@ -42,14 +52,14 @@ rc = gc = bc = 5
 def ncolor():
     global b, bc, g, gc , r, rc
 
-    b += bc
-    if b == 255:
-        g += gc
-        b = 100
-    
+    g += gc
     if g == 255:
-        r += rc
+        b += bc
         g = 100
+    
+    if b == 255:
+        r += rc
+        b = 100
 
     if r == 255 & g == 255 & b == 255:
         rc *= -1
@@ -65,6 +75,7 @@ def update(dt):
     for i in range(len(points)):
         points[i].rotate()
 
+    print(len(points))
     ncolor()
 
 pyglet.clock.schedule_interval(update,1/100000)
