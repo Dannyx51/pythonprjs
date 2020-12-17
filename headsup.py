@@ -39,7 +39,7 @@ newWord()
 
 @window.event
 def on_mouse_release(x, y, button, modifiers):
-    global failnt, fail
+    global failnt, fail, display
     if len(words) != 0:
         if button == mouse.LEFT:
             failnt += 1
@@ -47,6 +47,8 @@ def on_mouse_release(x, y, button, modifiers):
         if button == mouse.RIGHT:
             fail += 1
             newWord()
+    else: 
+        display = ""
 
 @window.event
 def on_draw():
