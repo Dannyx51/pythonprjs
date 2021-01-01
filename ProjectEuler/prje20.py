@@ -11,8 +11,8 @@ s = str(x)
 #print(s)
 
 a = 0
-for i in range(len(s)):
-    a += int(s[i])
+for i in s:
+    a += int(i)
 
 print(a)
 
