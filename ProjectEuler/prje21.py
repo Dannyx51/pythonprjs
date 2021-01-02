@@ -9,8 +9,6 @@ def d(num):
 
 total = 0
 for i in range(2,10000):
-    if i == 1184:
-        print()
     a = d(i)
     b = d(a)
     if i == b and a != b: 
