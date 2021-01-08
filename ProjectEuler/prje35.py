@@ -9,25 +9,25 @@ from itertools import permutations
 #            lp.append(i)
 #            print(i)
 
-#using sieve of eratosthenes to find primes
-lp = []
-for i in range(2,1000000):
-    lp.append(i)
+#i'll be honest i straight up ripped this from the interwebs but its a sieve of erastothenes (probably misspelt that)
+n = 1000000
 
-for i in range(490475):
-    print(i)
-    if lp[i] % 2 == 0: 
-        lp.pop(i)
-        i -= 1
-    if lp[i] % 3 == 0: 
-        lp.pop(i)
-        i -= 1
-    if lp[i] % 5 == 0: 
-        lp.pop(i)
-        i -= 1
-    if lp[i] % 7 == 0: 
-        lp.pop(i)
-        i -= 1
+prime = [True for i in range(n+1)] 
+p = 2
+while (p * p <= n): 
+        
+    # If prime[p] is not changed, then it is a prime 
+    if (prime[p] == True): 
+            
+        # Update all multiples of p 
+        for i in range(p * p, n+1, p): 
+            prime[i] = False
+    p += 1
+
+lp = []
+for i in range(2, len(prime)):
+    if prime[i] == True:
+        lp.append(i)
 
 lc = []
 for i in lp:
