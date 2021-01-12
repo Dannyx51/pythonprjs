@@ -1,3 +1,5 @@
+from functools import reduce
+
 raw = ["73167176531330624919225119674426574742355349194934",
 "96983520312774506326239578318016984801869478851843",
 "85861560789112949495459501737958331952853208805511",
@@ -19,34 +21,18 @@ raw = ["73167176531330624919225119674426574742355349194934",
 "05886116467109405077541002256983155200055935729725",
 "71636269561882670428252483600823257530420752963450"]
 
-l = []
+rstr = ""
 for i in raw:
-    temp = []
-    for x in i:
-        temp.append(int(x))
-    l.append(temp)
+    rstr += i
 
-vMax = hMax = 0
-for y in range(len(l)):
-    for x in range(len(l[0])-13):
-        temp = 1
-        for i in range(13):
-            temp *= l[y][x+i] 
-        if hMax < temp:
-            hMax = temp
+prev = 0
+for i in range(len(rstr)-13):
+    gamer = 1
+    for j in range(13):
+        gamer *= int(rstr[i+j])
+    if prev < gamer:
+        prev = gamer
+    
+print(prev)
 
-for x in range(len(l[0])):
-    for y in range(len(l) - 13):
-        temp = 1
-        for i in range(13):
-            temp *= l[y+i][x] 
-        if vMax < temp:
-            vMax = temp
-
-if vMax > hMax:
-    print(vMax)
-else:
-    print(hMax)
-print(23514624000)
-
-#i dont remember how i did this one ill be honest
+#i am very stupid
