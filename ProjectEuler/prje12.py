@@ -17,9 +17,8 @@ def t(n):
 
 j = 0
 while True:
-    print(t(j))
-    if t(j) == 76576500:
-        print(" THIS ONE d(t(j)) " )
-    if(d(t(j)) == 500):
+    #print(t(j))
+    if(d(t(j)) > 500):
         break
     j += 1
+print(t(j))
