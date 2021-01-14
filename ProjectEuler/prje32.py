@@ -21,3 +21,16 @@ total = 0
 for i in l:
     total+=i
 print(total)
+
+n = []
+for p in s:
+    n1 = int(p[0] + p[1] + p[2])
+    n2 = int(p[3] + p[4])
+    n3 = int(p[5] + p[6] + p[7] + p[8])
+    if n2 * n1 == n3 and n.count(n3) == 0:
+        n.append(n3)
+print(n)
+total = 0
+for i in n:
+    total+=i
+print(total)

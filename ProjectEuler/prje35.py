@@ -24,27 +24,19 @@ while (p * p <= n):
             prime[i] = False
     p += 1
 
-lp = []
-for i in range(2, len(prime)):
-    if prime[i] == True:
-        lp.append(i)
+l = []
+for i in range(2,n):
+    gaming = True
+    if prime[i]:
+        si = str(i)
+        for j in range(len(si)):
+            if not prime[int(si[j:] + si[:j])]:
+                gaming = False
+                break
+    else:
+        gaming = False
 
-lc = []
-for i in lp:
-    j = list(permutations(str(i)))
-    ap = []
-    for k in j:
-            t = ""
-            for l in k:
-                t += l  
-            ap.append(int(t))
-    z = 0
-    for k in ap:
-        if lp.count(k) != 0:
-            z += 1
-        if z == len(ap):
-            for h in ap:
-                if lc.count(h) == 0:
-                    lc.append(h)
-        
-print(len(lc))
+    if gaming:
+        l.append(i)
+
+print(len(l))
