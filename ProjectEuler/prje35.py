@@ -24,7 +24,7 @@ while (p * p <= n):
             prime[i] = False
     p += 1
 
-l = []
+count = 0
 for i in range(2,n):
     gaming = True
     if prime[i]:
@@ -37,6 +37,6 @@ for i in range(2,n):
         gaming = False
 
     if gaming:
-        l.append(i)
+        count += 1
 
-print(len(l))
+print(count)
