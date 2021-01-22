@@ -1,44 +1,28 @@
-#find abundant numbers first
-#find all numbers that can be made out of them
-#invert the list
-#summate
+import time
+from math import *
+def d(n):
+    s = 1
+    st = sqrt(n)
+    for i in range(2,int(st)+1):
+        if n % i == 0:
+          s += i + n / i
+    if int(st) == st:
+      s -= st
+    return s
 
-def d(num):
-    x = 0
-    for i in range(1,num+1):
-        if num % i == 0:
-            x += i
-    return x - num
-
-#create list of [ab]undant numbers
-ab = []
-for i in range(1, 28124):
-  print(i)
-  if d(i) > i:
-      ab.append(i)
-
-#create list of all possible creations
-#computing the numbers themselves takes too long so gonna try something else
-
-outloop = 0
-pc = [False for i in range(28124)]
-print(len(ab))
-for i in ab:
-  outloop += 1
-  print(outloop)
-  for x in ab:
-    if (i + x) > 28123:
-      break
-    pc[i + x] = True
-
-#finding the not possible numbers
-np = []
-for i in range(1,28124):
-  if pc[i] == False:
-    np.append(i)
-
-#summate
+s = time.time()
+#create set of [ab]undant numbers
+#sets are just stupid fast for searches, slower if iterating
+ab = set()
+limit = 20162
 total = 0
-for i in np:
-  total += i
+for i in range(1, limit):
+  #print(i)
+  if d(i) > i:
+    ab.add(i)
+  #is i - number = another abundant number?
+  if not any((i - n in ab) for n in ab):
+    total += i
 print(total)
+print("Runtime: " + str(time.time()-s))
+#efficiency bonk
