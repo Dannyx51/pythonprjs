@@ -1,5 +1,3 @@
-
-
 n = 1000000 #im hoping that this has the set im looking for in it
 
 prime = [True for i in range(n+1)] 
