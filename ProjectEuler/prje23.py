@@ -1,14 +1,14 @@
 import time
 from math import *
 def d(n):
-    s = 1
-    st = sqrt(n)
-    for i in range(2,int(st)+1):
-        if n % i == 0:
-          s += i + n / i
-    if int(st) == st:
-      s -= st
-    return s
+  s = 1
+  st = sqrt(n)
+  for i in range(2,int(st)+1):
+      if n % i == 0:
+        s += i + n / i
+  if int(st) == st:
+    s -= st
+  return s
 
 s = time.time()
 #create set of [ab]undant numbers
@@ -23,6 +23,8 @@ for i in range(1, limit):
   #is i - number = another abundant number?
   if not any((i - n in ab) for n in ab):
     total += i
-print(total)
+
+
+#print(total)
 print("Runtime: " + str(time.time()-s))
 #efficiency bonk
