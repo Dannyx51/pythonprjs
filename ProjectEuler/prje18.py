@@ -6,7 +6,7 @@ def max(a, n, m):
     elif m > n:
         a += m
     return a
-
+    
 #tree
 t = [[75, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
      [95, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -26,8 +26,6 @@ t = [[75, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 
 for y in reversed(range(len(t[0])-1)):
     for x in reversed(range(len(t)-1)):
-        #print(t[y][x])
         t[y][x] = max(t[y][x],t[y+1][x],t[y+1][x+1])
-        #print(t[y][x])
 
 print(t[0][0])
