@@ -2,8 +2,8 @@ from board import *
 import os
 import time
 
-clear = lambda: os.system("clear")
-x = Board()
+clear = lambda: os.system("CLS")
+cb = Board()
 
 def print_format_table():
     """
@@ -29,17 +29,24 @@ def print_format_table():
 # highlight color
 # format = '7;33;[piece color]'
 
-x.print(x.bBG)
-
 # selected = False
-# while True:
-#     if selected:
-#         x.print(x.bBG)
-#     else:
-#         x.print(x.bH)
-    
-#     pos = input("Choose a piece: ")
-#     time.sleep(0.5)
-#     clear()
+while True:
+    while True:
+        # first set to select a piece to move
+        try:
+            cb.print(cb.bBG)
+            pos = input("Choose a piece: ")
+            x = ord(pos[0].lower()) - 97
+            y = 8 - int(pos[1])
+            cb.highlight(x,y)
+            clear()
+            cb.print(cb.bH)
+            break
+        except Exception as e:
+            print("Error: {0}".format(e))
 
-#     selected = x.highlight(pos)
+        # second set to select a place to move it to
+        
+
+    time.sleep(1)
+    clear()

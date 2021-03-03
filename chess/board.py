@@ -3,22 +3,25 @@ from piece import *
 class Board:
     def __init__(self):
         self.board = self.resetBoard()
-        self.bBG = [['' for i in range(8)] for i in range(8)]
-        self.bH = [['' for i in range(8)] for i in range(8)]
+        self.bBG = self.resetHighlight()
+        self.bH = self.resetHighlight()
 
+
+    def resetHighlight(self):
+        l = [['' for i in range(8)] for i in range(8)]
         for i in range(8):
             for x in range(8):
                 if i % 2 == 0:
                     if x % 2 == 0:
-                        self.bBG[i][x] = '37'
+                        l[i][x] = '47'
                     else:
-                        self.bBG[i][x] = '30'
+                        l[i][x] = '40'
                 else:
                     if x % 2 == 0:
-                        self.bBG[i][x] = '30'
+                        l[i][x] = '40'
                     else:
-                        self.bBG[i][x] = '37'
-
+                        l[i][x] = '47'
+        return l
 
     def resetBoard(self):
         #create an 8x8 grid
@@ -49,7 +52,14 @@ class Board:
                 nl = ""
                 if x == 7:
                     nl = "\n"
-                format = '7;' + bg[y][x] + ";" + self.board[y][x].fg  
+                format = '1;' + self.board[y][x].fg + ";" + bg[y][x]
                 print('\x1b[%sm %s \x1b[0m' % (format,self.board[y][x].name), end = nl)
         print("")
 
+    def highlight(self, x,y):
+        if(self.board[y][x].name != " "):
+            item = self.board[y][x]
+            if item.name == "P":
+                if item.team == "white" and y == 6:
+                    self.bH[y][x] = '42'
+                    self.bH[y-1][x] = '43'

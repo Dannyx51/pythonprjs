@@ -5,8 +5,8 @@ class piece:
     self.fg = ''
 
     if self.team == "black":
-      self.fg = '41'
+      self.fg = '31'
     else:
-      self.fg = '46'
+      self.fg = '35'
 
     
