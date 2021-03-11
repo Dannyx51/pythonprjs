@@ -3,9 +3,7 @@ from piece import *
 class Board:
     def __init__(self):
         self.board = self.resetBoard()
-        self.bBG = self.resetHighlight()
-        self.bH = self.resetHighlight()
-
+        self.bg = self.resetHighlight()
 
     def resetHighlight(self):
         l = [['' for i in range(8)] for i in range(8)]
@@ -43,7 +41,7 @@ class Board:
 
         return l
 
-    def print(self, bg):
+    def print(self):
         print('\x1b[%sm %s \x1b[0m' % ("7;30;42","   A  B  C  D  E  F  G  H"))
     
         for y in range(len(self.board)):    
@@ -52,14 +50,77 @@ class Board:
                 nl = ""
                 if x == 7:
                     nl = "\n"
-                format = '1;' + self.board[y][x].fg + ";" + bg[y][x]
+                format = '1;' + self.board[y][x].fg + ";" + self.bg[y][x]
                 print('\x1b[%sm %s \x1b[0m' % (format,self.board[y][x].name), end = nl)
         print("")
 
-    def highlight(self, x,y):
-        if(self.board[y][x].name != " "):
-            item = self.board[y][x]
-            if item.name == "P":
-                if item.team == "white" and y == 6:
-                    self.bH[y][x] = '42'
-                    self.bH[y-1][x] = '43'
+    def mToXY(self,m):
+        if len(m) != 2:
+            raise throw("Move Length != 2!")
+        else:
+            x,y = 0,0
+            try:
+                x = ord(m[0].lower()) - 97
+                y = 8 - int(m[1])
+            except Exception as e:
+                print(e)
+            finally:
+                return x,y
+
+    def move(self,move,team):
+        pType, pre, post = move[0].upper(), move[1:3], move[3:]
+        
+        if team:team = "black"
+        else:team = "white"
+
+        fx,fy = self.mToXY(pre) 
+        tx,ty = self.mToXY(post)
+        if any(i > 7 for i in [fx,fy,tx,ty]):
+            raise throw("You are moving to a place outside of the board.")
+
+        chosen = self.board[fy][fx]
+        toPos = self.board[ty][tx]
+        self.moveException(chosen,toPos,pType,team)
+        captured = ""
+        if toPos.name != " ":
+            captured = toPos.name
+
+        valid = False
+        if pType == "N":
+            if any([tx == fx + 2, tx == fx - 2]):
+                valid = any([ty == fy - 1,ty == fy + 1])
+            elif any([ty == fy + 2, ty == fy - 2]):
+                valid = any([tx == fx - 1,tx  == fx + 1])
+
+            # print([fx,fy],[tx,ty])
+
+            if valid:
+                self.board[ty][tx] = chosen
+                self.board[fy][fx] = piece(" ", " ")
+                
+                if captured != "":
+                    print(f"Your knight moved to {post} capturing a {captured}")
+                else:
+                    print(f"Your knight moved to {post}.")
+            else:
+                raise throw("Your knight can't move there.")
+
+        elif pType == "P":
+            if chosen.team == "white" and fx == 6:
+                if ty == fy - 1 or fy - 2:
+                    pass
+        
+        
+        
+        # raise throw("ruh roh")
+        
+    def moveException(self,chosen,toPos,pType,team):
+        if chosen.name != pType:
+            raise throw(f"There is no {pType} at that position.")
+        if chosen.team != team:
+            raise throw("That is not your piece.")
+        if toPos.team == team:
+            raise throw("You can't take your own piece.")
+
+class throw(Exception):
+    pass

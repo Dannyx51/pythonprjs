@@ -6,6 +6,7 @@ class piece:
 
     if self.team == "black":
       self.fg = '31'
+    elif self.team == " ": self.fg = '33'
     else:
       self.fg = '35'
 
