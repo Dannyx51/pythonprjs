@@ -3,7 +3,7 @@ i = 0
 m = 0
 while True:
     i += (42840)
-    for j in range(1,21):
+    for j in range(2,21):
         if i % j != 0:
             break   
         elif j == 20:
