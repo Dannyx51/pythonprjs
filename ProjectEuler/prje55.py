@@ -1,11 +1,6 @@
 def isPal(n):
     s = str(n)
-    ln = len(s)
-
-    fh = s[:ln//2]
-    bh = s[ln//2:] if ln % 2 == 0 else s[(ln//2) + 1:]
-    
-    return fh == bh[::-1]
+    return s == s[::-1]
 
 l = [True for i in range(10001)]
 
