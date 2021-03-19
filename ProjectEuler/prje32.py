@@ -1,36 +1,35 @@
-#ok this one's tough so lets break it down danno
-#"123456789" needs to be permutated, so we can import permutations from itertools
-from itertools import permutations
-#next, the type of sets we are looking for is "123x456=789"
-#9 digits total, so we can thing about it as a way to look for products
-#in a "2x3=4" or a "3x2=4" scenario, bc nothing else will work
-#number to find == 45228
+# came back to it after a while, decided that the way i was attempting to solve this is too slow (permutations requires more time than the math itself)
+# we need 'a * b = c' where a b c concatonated include all digits 1-9 with no repeats - the function concat takes care of the concatonation while
+# the function pan takes care of checking the digits. 
 
+# we use sets instead of lists bc sets force each item to be unique and they're faster than lists to iterate
 
-s = list(permutations("123456789"))
-l = []
-for p in s:
-    n1 = int(p[0] + p[1])
-    n2 = int(p[2] + p[3] + p[4])
-    n3 = int(p[5] + p[6] + p[7] + p[8])
-    if n2 * n1 == n3 and l.count(n3) == 0:
-        l.append(n3)
-    
-print(l)
-total = 0
-for i in l:
-    total+=i
-print(total)
+def concat(a,b,c):
+    return str(a) + str(b) + str(c)
 
-n = []
-for p in s:
-    n1 = int(p[0] + p[1] + p[2])
-    n2 = int(p[3] + p[4])
-    n3 = int(p[5] + p[6] + p[7] + p[8])
-    if n2 * n1 == n3 and n.count(n3) == 0:
-        n.append(n3)
-print(n)
-total = 0
-for i in n:
-    total+=i
-print(total)
+def pan(s):
+    return set(s) == set('123456789')
+
+# the set of answers
+l = set()
+
+# the two possible ways to make a 9 digit concatination is through 1 x 4 = 4 and 2 x 3 = 4, these loops check both.
+for i in range(2,10):
+    if not (i % 10): continue
+    for x in range(1000,10000):
+        if not (x % 10): continue
+        n = i * x
+        n = concat(i,x,n)
+        if len(n) != 9: continue
+        if pan(n): l.add(i*x)
+
+for i in range(11,100):
+    if not (i % 10): continue
+    for x in range(101,1000):
+        if not (x % 10): continue
+        n = i * x
+        n = concat(i,x,n)
+        if len(n) != 9: continue
+        if pan(n): l.add(i*x)
+
+print(f"sum = {sum(l)}")
