@@ -2,6 +2,7 @@
     "python.analysis.extraPaths": [
         "C:\\Users\\dhaan\\Documents\\PythonPrjs\\EncryptionChallenge",
         "C:\\Users\\dhaan\\Documents\\PythonPrjs\\chess",
-        "C:\\Users\\dhaan\\Documents\\PythonPrjs\\graphing"
+        "C:\\Users\\dhaan\\Documents\\PythonPrjs\\graphing",
+        "C:\\Users\\dhaan\\Documents\\PythonPrjs\\Random\\testing some particles"
     ]
 }
