@@ -1,5 +1,6 @@
 from colors import *
 from typing import Optional
+from random import randint
 import pygame
 import pygame.mixer
 from pygame.locals import *
@@ -27,7 +28,8 @@ class sand(particle):
     def update(self, colTest: list) -> None:
 
         # Where the particle will land if we continue down 
-        down = self.rect.move(0,(self.size * self.speed) if self.rect.bottom + (self.size * self.speed) < height else self.size) 
+        down = self.rect.move(0,(self.size * self.speed)) 
+        if down.collidelist(colTest) != -1 or down.bottom > height: down = self.rect.move(0,self.size)
         left = self.rect.move(-self.size,self.size)    # where particle will land if down-left
         right = self.rect.move(self.size,self.size)    # where particle will land if down-right
 
@@ -38,16 +40,17 @@ class sand(particle):
         if not self.collide:
             if down.collidelist(colTest) == -1:
                 self.rect = down
-            elif left.collidelist(colTest) == -1:
+            elif left.collidelist(colTest) == -1 and left.left > 0:
                 self.color = red
                 self.rect = left
-            elif right.collidelist(colTest) == -1:
+            elif right.collidelist(colTest) == -1 and right.right < width:
                 self.color = red
                 self.rect = right
             else:
                 self.collide = True
 
         self.display()
+
 
 # Base water class
 class water(particle):
@@ -64,7 +67,7 @@ class water(particle):
         dright = self.rect.move(self.size,self.size)    # where partical will land if down-right
         
         left = self.rect.move(-self.size if self.rect.left - self.size > -1 else 0 ,0)
-        right = self.rect.move(self.size if self.rect.right + self.size < width - self.size else 0 ,0)
+        right = self.rect.move(self.size if (self.rect.right + self.size) < (width - self.size) else 0 ,0)
 
         if down.bottom > height:
             self.collide = True
@@ -83,7 +86,25 @@ class water(particle):
                 self.blocked = True
 
         # Unique to liquids, can I spread to the sides? 
-         
+        if not self.collide and self.blocked:
+            self.color = yellow
+            canMoveLeft = left.collidelist(colTest) == -1
+            canMoveRight = right.collidelist(colTest) == -1
+            if canMoveLeft and canMoveRight:
+                if randint(1,100) > 50:
+                    self.rect = left
+                    self.blocked = False
+                else:
+                    self.rect = right
+                    self.blocked = False  
+            elif canMoveLeft:
+                self.rect = left
+                self.blocked = False
+            elif canMoveRight:
+                self.rect = right
+                self.blocked = False
+            else:
+                self.blocked = True
 
         self.display()
 
@@ -120,7 +141,8 @@ clock = pygame.time.Clock()
 pygame.display.set_caption("Particles")
 
 collided = []
-falling = [sand(gX, gY, divisions, green, gSpeed)]
+falling = [water(gX, gY, divisions, green, gSpeed)]
+globalList = [falling[0]]
 
 counter = 0
 while True:
@@ -143,11 +165,11 @@ while True:
         gSpeed -= 1
 
     if counter % 3 == 0:
-        falling.append(sand(gX, gY, divisions, green, gSpeed))
+        falling.append(water(gX, gY, divisions, green, gSpeed))
 
     i = 0
     while i < len(falling):
-        falling[i].update(collided)
+        falling[i].update(globalList)
 
         if falling[i].collide:
             falling[i].color = blue
@@ -161,5 +183,8 @@ while True:
     for x in collided:
         x.display()
 
+    globalList = []
+    globalList.extend(falling)
+    globalList.extend(collided)
     pygame.display.flip()
     counter += 1
