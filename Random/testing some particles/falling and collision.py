@@ -57,6 +57,7 @@ class water(particle):
     def __init__(self,*args,**kwargs) -> None:
         super(water,self).__init__(*args,**kwargs)
         self.blocked = False
+        self.bCount = 0
 
     def update(self, colTest: list) -> None:
         global width
@@ -67,7 +68,7 @@ class water(particle):
         dright = self.rect.move(self.size,self.size)    # where partical will land if down-right
         
         left = self.rect.move(-self.size if self.rect.left - self.size > -1 else 0 ,0)
-        right = self.rect.move(self.size if (self.rect.right + self.size) < (width - self.size) else 0 ,0)
+        right = self.rect.move(self.size if (self.rect.left + self.size) < width else 0 ,0)
 
         if down.bottom > height:
             self.collide = True
@@ -105,6 +106,9 @@ class water(particle):
                 self.blocked = False
             else:
                 self.blocked = True
+                self.bCount += 1 if self.bCount != 5 else 0
+                if self.bCount == 5:
+                    self.collide = True
 
         self.display()
 
