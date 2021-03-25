@@ -36,14 +36,20 @@ class sand(particle):
         if down.bottom > height:
             self.collide = True
 
+        boolLeft, boolRight = left.collidelist(colTest) == -1 and left.left > 0, right.collidelist(colTest) == -1  and right.right < width
+
+        if boolLeft and boolRight:
+            boolLeft = randint(1,100) > 50
+            boolRight = not boolLeft
+
         #if we have not already collided
         if not self.collide:
             if down.collidelist(colTest) == -1:
                 self.rect = down
-            elif left.collidelist(colTest) == -1 and left.left > 0:
+            elif boolLeft:
                 self.color = red
                 self.rect = left
-            elif right.collidelist(colTest) == -1 and right.right < width:
+            elif boolRight:
                 self.color = red
                 self.rect = right
             else:
@@ -118,7 +124,7 @@ class water(particle):
 def retClosest(x:int, l:list) -> int:
     return l[(min((range(len(l))), key = lambda i: abs(l[i] - x)))]
 
-(width,height) = (550,400) # self explanatory lol
+(width,height) = (1280,720) # self explanatory lol
 
 # divisions is the pixel size of each pixel in the grid
 divisions = 5
@@ -168,7 +174,7 @@ while True:
     elif keys[K_DOWN]:
         gSpeed -= 1
 
-    if counter % 3 == 0:
+    if counter % 6 == 0:
         falling.append(water(gX, gY, divisions, green, gSpeed))
 
     i = 0
